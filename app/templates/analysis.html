@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analyse des Ventes</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      h1, h2 {
+        color: #333;
+      }
+      .total-revenue {
+        background-color: #e8f5e9;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+        font-size: 1.2em;
+        text-align: center;
+      }
+      .revenue-value {
+        font-weight: bold;
+        font-size: 1.5em;
+        color: #388e3c;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        margin-bottom: 40px;
+      }
+      th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Analyse des Ventes</h1>
+
+    <!-- Section 1: Total Revenue -->
+    <div class="section">
+      <h2>Chiffre d'affaires total</h2>
+      <div class="total-revenue">
+        <p>
+          Le chiffre d'affaires total est de:
+          <span class="revenue-value">{{ total_revenue }} €</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 2: Sales by Product -->
+    <div class="section">
+      <h2>Ventes par produit</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Quantité totale</th>
+            <th>Chiffre d'affaires (€)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in product_sales %}
+          <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 3: Sales by Region -->
+    <div class="section">
+      <h2>Ventes par région</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Région</th>
+            <th>Quantité totale</th>
+            <th>Chiffre d'affaires (€)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in region_sales %}
+          <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="section">
+      <h2>Performance par Employé</h2>
+      <div class="plot-container">
+        <img src="data:image/png;base64,{{ revenue_per_employee_plot }}" alt="Chiffre d'Affaires par Employé" style="max-width:100%;">
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+services:
+  db:
+    image: keinos/sqlite3:latest
+    volumes:
+      - ./data:/data
+    command: |
+      sh -c "
+      mkdir -p /data &&
+      touch /data/sales.db &&
+      chmod 666 /data/sales.db &&
+      tail -f /dev/null"
+    healthcheck:
+      test: ["CMD", "sqlite3", "/data/sales.db", ".databases"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  app:
+    build: ./app
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
