@@ -15,7 +15,7 @@ def initialize_database():
 
     # Create tabels
     cursor.execute(
-    """
+        """
     CREATE TABLE IF NOT EXISTS produits (
         id_reference_produit TEXT PRIMARY KEY,
         nom TEXT,
@@ -25,7 +25,7 @@ def initialize_database():
     """
     )
     cursor.execute(
-    """
+        """
     CREATE TABLE IF NOT EXISTS magasins (
         id_magasin INTEGER PRIMARY KEY,
         ville TEXT,
@@ -34,7 +34,7 @@ def initialize_database():
     """
     )
     cursor.execute(
-    """
+        """
     CREATE TABLE IF NOT EXISTS ventes (
         date TEXT,
         id_reference_produit TEXT,

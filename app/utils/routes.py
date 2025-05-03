@@ -12,15 +12,12 @@ from .sql_queries import (
 )
 from .plot_generator import generate_revenue_per_employee_plot
 
-router = APIRouter(prefix="/execute")
+api_router = APIRouter(prefix="/api", tags=["api"])
+web_router = APIRouter(prefix="/web", tags=["web"])
 
-
-@router.get("/schema")
+@api_router.get("/schema")
 def get_schema():
-    """
-    Returns the database schema for debugging purposes.
-    Shows all tables and their column definitions.
-    """
+
     conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
 
@@ -47,10 +44,11 @@ def get_schema():
         ]
 
     conn.close()
+
     return schema
 
 
-@router.post("/query")
+@api_router.post("/query")
 def execute_query(query: str):
     conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
@@ -58,12 +56,14 @@ def execute_query(query: str):
         cursor.execute(query)
         result = cursor.fetchall()
         conn.commit()
+
         return {"result": result}
+
     finally:
         conn.close()
 
 
-@router.get("/analysis", response_class=HTMLResponse)
+@web_router.get("/dashboard", response_class=HTMLResponse)
 def analysis(request: Request):
     conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
