@@ -1,5 +1,3 @@
-# FastAPI SQLite Sales Analysis Project (Updated README)
-
 # FastAPI SQLite Sales Analysis Project
 
 Ce projet met en place une application FastAPI qui analyse les données de ventes d'une entreprise en utilisant SQLite. L'application récupère les données depuis des URLs spécifiées, les charge dans une base de données SQLite conteneurisée, effectue des analyses et stocke les résultats. L'ensemble est orchestré avec Docker Compose pour simplifier le déploiement.
@@ -107,6 +105,47 @@ simplon_7
 +--------------------------+      +--------------------------+
 (Note: 1-to-Many relationships shown)
 ```
+
+## Structure Complète de la Base de Données
+
+### Tables de Données Principales
+1. **produits**
+   - `id_reference_produit` (TEXT): Identifiant unique du produit
+   - `nom` (TEXT): Nom du produit
+   - `prix` (REAL): Prix unitaire
+   - `stock` (INTEGER): Quantité en stock
+
+2. **magasins**
+   - `id_magasin` (INTEGER): Identifiant unique du magasin
+   - `ville` (TEXT): Ville où se situe le magasin
+   - `nombre_de_salaries` (INTEGER): Nombre d'employés du magasin
+
+3. **ventes**
+   - `date` (TEXT): Date de la vente
+   - `id_reference_produit` (TEXT): Référence au produit vendu
+   - `quantite` (INTEGER): Quantité vendue
+   - `id_magasin` (INTEGER): Magasin où la vente a eu lieu
+
+### Tables d'Analyse
+Ces tables sont générées par l'application lors de l'analyse des données:
+
+1. **chiffre_affaires_total**
+   - `date_analyse` (TEXT, PK): Date à laquelle l'analyse a été effectuée
+   - `montant_total` (REAL): Chiffre d'affaires total calculé
+
+2. **ventes_par_produit**
+   - `date_analyse` (TEXT, PK): Date de l'analyse
+   - `nom_produit` (TEXT, PK): Nom du produit analysé
+   - `quantite_totale` (INTEGER): Quantité totale vendue
+   - `chiffre_affaires` (REAL): Chiffre d'affaires généré par ce produit
+
+3. **ventes_par_region**
+   - `date_analyse` (TEXT, PK): Date de l'analyse
+   - `region` (TEXT, PK): Ville/région analysée
+   - `quantite_totale` (INTEGER): Quantité totale vendue dans cette région
+   - `chiffre_affaires` (REAL): Chiffre d'affaires généré dans cette région
+
+Le système stocke les résultats de chaque analyse avec un horodatage, permettant de suivre l'évolution des performances dans le temps.
 
 ## Instructions d'Installation
 
