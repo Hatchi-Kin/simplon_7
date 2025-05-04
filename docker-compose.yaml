@@ -1,6 +1,7 @@
 services:
   db:
     image: keinos/sqlite3:latest
+    user: "root"
     volumes:
       - ./data:/data
     command: |
@@ -8,6 +9,8 @@ services:
       mkdir -p /data &&
       touch /data/sales.db &&
       chmod 666 /data/sales.db &&
+      echo 'PRAGMA journal_mode = WAL;' | sqlite3 /data/sales.db &&
+      echo 'PRAGMA synchronous = NORMAL;' | sqlite3 /data/sales.db &&
       tail -f /dev/null"
     healthcheck:
       test: ["CMD", "sqlite3", "/data/sales.db", ".databases"]
@@ -24,3 +27,6 @@ services:
         condition: service_healthy
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_PATH=/app/data/sales.db
+      - PYTHONUNBUFFERED=1
